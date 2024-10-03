@@ -8,8 +8,8 @@ export default function PostPage() {
   const [redirect, setRedirect] = useState(false);
   const { userInfo } = useContext(UserContext);
   const { id } = useParams();
-  const [loading, setLoading] = useState(true);  // Loading state
-  const [error, setError] = useState(null);  // Error state
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null);  
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -47,11 +47,11 @@ export default function PostPage() {
   }
 
   if (loading) {
-    return <div>Loading post...</div>;  // Display loading message
+    return <div>Loading post...</div>; 
   }
 
   if (error) {
-    return <div>Error: {error}</div>;  // Display error message
+    return <div>Error: {error}</div>;  
   }
 
   if (!postInfo) return '';
@@ -92,7 +92,7 @@ export default function PostPage() {
       <div className="image mb-8">
         <img
           src={postInfo.cover}
-          alt={`Cover for ${postInfo.title}`}  // Descriptive alt text for accessibility
+          alt={`Cover for ${postInfo.title}`}  
           className="w-full h-auto rounded-2xl shadow-lg"
         />
       </div>

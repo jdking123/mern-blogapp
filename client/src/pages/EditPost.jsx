@@ -11,13 +11,13 @@ export default function EditPost() {
   const [files, setFiles] = useState([]);
   const [redirect, setRedirect] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [updating, setUpdating] = useState(false); // New state
+  const [updating, setUpdating] = useState(false); 
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     axios.get(`/post/${id}`)
       .then(response => {
-        const postInfo = response.data; // Access data directly
+        const postInfo = response.data; 
         setTitle(postInfo.title);
         setContent(postInfo.content);
         setSummary(postInfo.summary);
@@ -32,7 +32,7 @@ export default function EditPost() {
 
   async function updatePost(ev) {
     ev.preventDefault();
-    setUpdating(true); // Set updating state
+    setUpdating(true); 
 
     if (!title || !summary || !content) {
       setErrorMessage("All fields are required.");
@@ -52,7 +52,7 @@ export default function EditPost() {
 
     try {
       const response = await axios.put('/post', data, {
-        withCredentials: true,  // Include credentials like cookies (if not globally set)
+        withCredentials: true,  
       });
       
 
@@ -65,7 +65,7 @@ export default function EditPost() {
       console.error("Error updating post:", error);
       setErrorMessage("An error occurred while updating the post.");
     } finally {
-      setUpdating(false); // Reset updating state
+      setUpdating(false); 
     }
   }
 

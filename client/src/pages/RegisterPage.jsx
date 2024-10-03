@@ -42,7 +42,7 @@ export default function RegisterPage() {
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-gray-800 to-gray-900 relative overflow-hidden">
       <div className="absolute inset-0 opacity-30 bg-gray-900 mix-blend-screen"></div>
 
-      {/* Form Container */}
+      
       <form
         onSubmit={register}
         className="relative z-10 bg-gray-800 bg-opacity-80 backdrop-blur-lg p-10 rounded-lg shadow-2xl max-w-sm w-full space-y-6 border border-gray-600"

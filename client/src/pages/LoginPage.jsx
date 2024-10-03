@@ -46,7 +46,7 @@ export default function LoginPage() {
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-gray-800 to-gray-900 relative overflow-hidden">
       <div className="absolute inset-0 opacity-30 bg-gray-900 mix-blend-screen"></div>
 
-      {/* Form Container */}
+      
       <form
         onSubmit={login}
         className="relative z-10 bg-gray-800 bg-opacity-80 backdrop-blur-lg p-10 rounded-lg shadow-2xl max-w-sm w-full space-y-6 border border-gray-600"
@@ -84,7 +84,7 @@ export default function LoginPage() {
         </p>
       </form>
 
-      {/* Decorative Elements */}
+      
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
         <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
           <defs>

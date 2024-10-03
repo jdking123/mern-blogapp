@@ -13,9 +13,9 @@ const mime = require('mime-types');
 
 const app = express();
 const salt = bcrypt.genSaltSync(10);
-const secret = process.env.JWT_SECRET;  // Use secret from .env file
+const secret = process.env.JWT_SECRET;  
 
-// Middlewares
+
 app.use(cors({
   origin: process.env.CLIENT_URL,
   credentials: true,
@@ -25,32 +25,32 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-// Mongoose connection
-mongoose.set('strictQuery', false);  // Handle deprecation warning
+
+mongoose.set('strictQuery', false); 
 mongoose.connect(process.env.MONGO_URI, {
-  serverSelectionTimeoutMS: 30000  // Increase timeout to 30 seconds
+  serverSelectionTimeoutMS: 30000  
 }).then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Failed to connect to MongoDB', err));
 
-// Initialize S3 client
+
 const s3 = new S3Client({
-  region: process.env.AWS_REGION,  // Added AWS_REGION to your env variables
+  region: process.env.AWS_REGION,  
   credentials: {
     accessKeyId: process.env.S3_ACCESS_KEY_ID,
     secretAccessKey: process.env.S3_SECRET_ACCESS_KEY
   }
 });
 
-// Multer setup for file uploads in memory
+
 const uploadMiddleware = multer({ storage: multer.memoryStorage() });
 
-// Error handling middleware
+
 function errorHandler(err, req, res, next) {
   console.error(err);
   res.status(err.status || 500).json({ message: err.message || 'Internal Server Error' });
 }
 
-// Authentication middleware
+
 function authenticateToken(req, res, next) {
   const token = req.cookies.token;
   if (!token) {
@@ -65,7 +65,7 @@ function authenticateToken(req, res, next) {
   });
 }
 
-// Function to upload to AWS S3 using buffer
+
 async function uploadToS3(buffer, originalFileName, mimeType) {
   const s3Key = `uploads/${Date.now()}-${originalFileName}`;
   const uploadParams = {
@@ -86,9 +86,9 @@ async function uploadToS3(buffer, originalFileName, mimeType) {
   }
 }
 
-app.options('/register', cors()); // Enable preflight requests for /api/register
+app.options('/api/register', cors()); 
 
-// Register Route
+
 app.post('/api/register', async (req, res, next) => {
   const { username, password } = req.body;
   try {
@@ -102,8 +102,8 @@ app.post('/api/register', async (req, res, next) => {
   }
 });
 
-// Login Route
-app.post('/login', async (req, res, next) => {
+
+app.post('/api/login', async (req, res, next) => {
   const { username, password } = req.body;
   try {
     const userDoc = await User.findOne({ username });
@@ -125,18 +125,18 @@ app.post('/login', async (req, res, next) => {
   }
 });
 
-// Profile Route
-app.get('/profile', authenticateToken, (req, res) => {
+
+app.get('/api/profile', authenticateToken, (req, res) => {
   res.json(req.user);
 });
 
-// Logout Route
-app.post('/logout', (req, res) => {
+
+app.post('/api/logout', (req, res) => {
   res.cookie('token', '').json('Logged out');
 });
 
-// Create Post Route
-app.post('/post', uploadMiddleware.single('file'), async (req, res, next) => {
+
+app.post('/api/post', uploadMiddleware.single('file'), async (req, res, next) => {
   const { originalname, buffer, mimetype } = req.file;  
   const { token } = req.cookies;
 
@@ -160,8 +160,8 @@ app.post('/post', uploadMiddleware.single('file'), async (req, res, next) => {
   });
 });
 
-// Update Post Route
-app.put('/post', uploadMiddleware.single('file'), async (req, res, next) => {
+
+app.put('/api/post', uploadMiddleware.single('file'), async (req, res, next) => {
   let s3Url = null;
   if (req.file) {
     const { originalname, buffer, mimetype } = req.file;
@@ -192,8 +192,8 @@ app.put('/post', uploadMiddleware.single('file'), async (req, res, next) => {
   });
 });
 
-// DELETE route for deleting a post
-app.delete('/post/:id', authenticateToken, async (req, res, next) => {
+
+app.delete('/api/post/:id', authenticateToken, async (req, res, next) => {
   const { id } = req.params;
   try {
     const post = await Post.findById(id);
@@ -210,8 +210,8 @@ app.delete('/post/:id', authenticateToken, async (req, res, next) => {
   }
 });
 
-// Get All Posts Route
-app.get('/post', async (req, res, next) => {
+
+app.get('/api/post', async (req, res, next) => {
   try {
     const posts = await Post.find()
       .populate('author', ['username'])
@@ -223,8 +223,8 @@ app.get('/post', async (req, res, next) => {
   }
 });
 
-// Get Single Post by ID Route
-app.get('/post/:id', async (req, res, next) => {
+
+app.get('/api/post/:id', async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.id).populate('author', ['username']);
     if (!post) {

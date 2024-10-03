@@ -38,7 +38,7 @@ export default function Header() {
   const username = userInfo?.username;
 
   if (loading) {
-    return <div>Loading...</div>; // Loading state
+    return <div>Loading...</div>;
   }
 
   return (

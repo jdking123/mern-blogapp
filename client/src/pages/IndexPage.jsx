@@ -4,38 +4,38 @@ import { useEffect, useState } from "react";
 
 export default function IndexPage() {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);  // Loading state
-  const [error, setError] = useState(null);  // Error state
+  const [loading, setLoading] = useState(true);  
+  const [error, setError] = useState(null);  
 
   useEffect(() => {
     axios.get('/post')
       .then(response => {
-        setPosts(response.data); // Data is already parsed
-        setLoading(false); // Data fetched
+        setPosts(response.data);
+        setLoading(false); 
       })
       .catch(err => {
         console.error("Error fetching posts:", err);
         setError(err.message);
-        setLoading(false); // Error occurred
+        setLoading(false); 
       });
   }, []);
 
   if (loading) {
-    return <div>Loading posts...</div>;  // Display loading message
+    return <div>Loading posts...</div>;  
   }
 
   if (error) {
-    return <div>Error: {error}</div>;  // Display error message if there's an error
+    return <div>Error: {error}</div>;  
   }
 
   if (posts.length === 0) {
-    return <div>No posts available.</div>;  // Display a message if no posts are found
+    return <div>No posts available.</div>;  
   }
 
   return (
     <>
       {posts.map(post => (
-        <Post key={post._id} {...post} />  // Added `key` prop for better React list handling
+        <Post key={post._id} {...post} />  
       ))}
     </>
   );
