@@ -97,7 +97,9 @@ export default function EditPost() {
       />
       <Editor onChange={setContent} value={content} />
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-      <button style={{ marginTop: '5px' }} disabled={updating}>
+      <button
+       className={`bg-gray-500 text-white font-semibold py-2 px-4 rounded transition duration-200 
+        ${updating ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-700'}`}   disabled={updating}>
         {updating ? 'Updating...' : 'Update Post'}
       </button>
     </form>
